@@ -25,14 +25,8 @@ jobs:
     value: false
   - name: skipComponentGovernanceDetection
     value : true
-  - name : system.collectionId
-    value : 556ac44f-caae-4fef-a5b6-d964fed453e6
   - name: system.debug
     value: false
-  - name : system.definitionId
-    value: 5
-  - name : system.teamProject
-    value : Lansa Azure Scalable License Images
   - name: ttk.asset.filename
     value : AzTemplateToolKit.zip
   - name : ttk.folder
