@@ -19,6 +19,7 @@ jobs:
   - group: 'Template Parameters'
   - group: 'SKU Versions'
   - group: 'Default Branch' 
+  - group: 'Azure Logins'
   - name: CookbooksSource 
     value: $(Build.Repository.LocalPath)\cookbooks
   - name: ForceDeploy
@@ -31,8 +32,6 @@ jobs:
     value : AzTemplateToolKit.zip
   - name : ttk.folder
     value: $(Agent.BuildDirectory)\test
-  - name : ConnectedServiceName
-    value : 'Azure Baking Images 2'
 
   steps:
   - checkout: self
