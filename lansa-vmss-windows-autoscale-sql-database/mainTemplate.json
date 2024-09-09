@@ -1310,10 +1310,6 @@
          "type": "string",
          "value": "[if(variables('isAgPublicIPNew'), concat('https://', reference(variables('agPublicIPAddressID')).dnsSettings.fqdn), concat('https://', reference(variables('agPublicIPAddressID'), '2018-07-01').dnsSettings.fqdn))]"
       },
-      //"dbrdpAddress": {
-       //  "type": "string",
-       //  "value": "[concat(reference(variables('dbpublicIPAddressName')).dnsSettings.fqdn, ':50000')]"
-      //},
       "rdpAddress": {
          "type": "string",
          "value": "[concat(reference(variables('publicIPAddressName')).dnsSettings.fqdn, ':50000')]"
