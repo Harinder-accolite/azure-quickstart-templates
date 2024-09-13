@@ -8,7 +8,7 @@ resources:
   repositories:
   - repository: self
     type: git
-    ref: feature/harinder-classic2YAML
+    ref: feature/harinder-classic2yaml
 
 jobs:
 - job: Job_1
