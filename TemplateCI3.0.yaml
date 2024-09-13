@@ -1,4 +1,4 @@
-name: Template-CI-3.0-$(Build.BuildId)
+name: Template-CI-3-$(Build.BuildId)
 
 trigger: none
 
@@ -8,7 +8,7 @@ resources:
   repositories:
   - repository: self
     type: git
-    ref: support/scalable
+    ref: feature/harinder-classic2YAML
 
 jobs:
 - job: Job_1
