@@ -90,6 +90,7 @@ jobs:
       subscriptionName: 739c4e86-bd75-4910-8d6e-d7eb23ab94f3
       action: DeleteRG
       resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
+    continueOnError: true
   - task: AzureResourceManagerTemplateDeployment@3
     displayName: 'Deploy ARM Template : BakingDP-TemplateTest'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
