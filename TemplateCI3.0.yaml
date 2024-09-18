@@ -1,22 +1,22 @@
 name: Template-CI-3-$(Build.BuildId)
 
-  variables:
-  - group: 'Template Parameters'
-  - group: 'SKU Versions'
-  - group: 'Default Branch' 
-  - group: 'Azure Logins'
-  - name: CookbooksSource 
-    value: $(Build.Repository.LocalPath)\cookbooks
-  - name: ForceDeploy
-    value: false
-  - name: skipComponentGovernanceDetection
-    value: true
-  - name: system.debug
-    value: false
-  - name: ttk.asset.filename
-    value: AzTemplateToolKit.zip
-  - name: ttk.folder
-    value: $(Agent.BuildDirectory)\test
+variables:
+- group: 'Template Parameters'
+- group: 'SKU Versions'
+- group: 'Default Branch' 
+- group: 'Azure Logins'
+- name: CookbooksSource 
+  value: $(Build.Repository.LocalPath)\cookbooks
+- name: ForceDeploy
+  value: false
+- name: skipComponentGovernanceDetection
+  value: true
+- name: system.debug
+  value: false
+- name: ttk.asset.filename
+  value: AzTemplateToolKit.zip
+- name: ttk.folder
+  value: $(Agent.BuildDirectory)\test
 
 trigger: none
 
