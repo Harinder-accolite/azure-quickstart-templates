@@ -1,20 +1,5 @@
 name: Template-CI-3-$(Build.BuildId)
 
-trigger: none
-
-pr: none
-
-resources:
-  repositories:
-  - repository: self
-    type: git
-    ref: feature/harinder-classic2yaml
-
-jobs:
-- job: Job_1
-  displayName: 'Agent job: Template Tests'
-  pool:
-    vmImage: windows-2019
   variables:
   - group: 'Template Parameters'
   - group: 'SKU Versions'
@@ -32,6 +17,22 @@ jobs:
     value : AzTemplateToolKit.zip
   - name : ttk.folder
     value: $(Agent.BuildDirectory)\test
+
+trigger: none
+
+pr: none
+
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: feature/harinder-classic2yaml
+
+jobs:
+- job: Job_1
+  displayName: 'Agent job: Template Tests'
+  pool:
+    vmImage: windows-2019
 
   steps:
   - checkout: self
@@ -81,6 +82,14 @@ jobs:
       errorActionPreference: continue
       failOnStderr: true
       pwsh: true
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: 'Cleanup ARM Template : BakingDP-TemplateTest'
+    condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
+    inputs:
+      ConnectedServiceName: $(ConnectedServiceName)
+      subscriptionName: 739c4e86-bd75-4910-8d6e-d7eb23ab94f3
+      action: DeleteRG
+      resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
   - task: AzureResourceManagerTemplateDeployment@3
     displayName: 'Deploy ARM Template : BakingDP-TemplateTest'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
@@ -213,14 +222,6 @@ jobs:
             throw $result.Value[1].message
         }
       TargetAzurePs: LatestVersion
-  - task: AzureResourceManagerTemplateDeployment@3
-    displayName: 'Cleanup ARM Template : BakingDP-TemplateTest'
-    condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
-    inputs:
-      ConnectedServiceName: $(ConnectedServiceName)
-      subscriptionName: 739c4e86-bd75-4910-8d6e-d7eb23ab94f3
-      action: DeleteRG
-      resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
   - task: CopyFiles@2
     displayName: 'Copy Files to: Artifact Staging Directory'
     inputs:
