@@ -10,12 +10,12 @@ name: Template-CI-3-$(Build.BuildId)
   - name: ForceDeploy
     value: false
   - name: skipComponentGovernanceDetection
-    value : true
+    value: true
   - name: system.debug
     value: false
   - name: ttk.asset.filename
-    value : AzTemplateToolKit.zip
-  - name : ttk.folder
+    value: AzTemplateToolKit.zip
+  - name: ttk.folder
     value: $(Agent.BuildDirectory)\test
 
 trigger: none
@@ -117,7 +117,7 @@ jobs:
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
     inputs:
       targetType: inline
-      script: >-
+      script: >-`
         # Print the Deployment Output
 
         Write-Host "$(deploymentOutput)" | out-default | Write-Verbose
