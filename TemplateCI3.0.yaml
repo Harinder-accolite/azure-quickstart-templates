@@ -117,7 +117,7 @@ jobs:
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
     inputs:
       targetType: inline
-      script: >-`
+      script: >-
         # Print the Deployment Output
 
         Write-Host "$(deploymentOutput)" | out-default | Write-Verbose
