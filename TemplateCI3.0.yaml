@@ -1,6 +1,7 @@
 name: Template-CI-3-$(Build.BuildId)
 
 variables:
+
 - group: 'Template Parameters'
 - group: 'SKU Versions'
 - group: 'Default Branch' 
