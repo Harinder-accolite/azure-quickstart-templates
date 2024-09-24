@@ -1,4 +1,4 @@
-name: Template-CI-3-$(Build.BuildId)
+name: Template-CI-$(Build.BuildId)
 
 variables:
 
