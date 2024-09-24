@@ -1,7 +1,6 @@
 name: Template-CI-$(Build.BuildId)
 
 variables:
-
 - group: 'Template Parameters'
 - group: 'SKU Versions'
 - group: 'Default Branch' 
@@ -20,12 +19,6 @@ variables:
 trigger: none
 
 pr: none
-
-resources:
-  repositories:
-  - repository: self
-    type: git
-    ref: feature/harinder-classic2yaml
 
 jobs:
 - job: Job_1
