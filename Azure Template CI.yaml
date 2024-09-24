@@ -20,6 +20,12 @@ trigger: none
 
 pr: none
 
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: feature/harinder-classic2yaml
+    
 jobs:
 - job: Job_1
   displayName: 'Agent job: Template Tests'
