@@ -86,6 +86,7 @@ jobs:
   - task: AzureResourceManagerTemplateDeployment@3
     inputs:
       deploymentScope: 'Resource Group'
+      ConnectedServiceName: $(ConnectedServiceName)
       action: 'DeleteRG'
       resourceGroupName: BakingDP-TemplateTest-*
 
@@ -344,7 +345,7 @@ jobs:
       SourceFolder: $(build.artifactstagingdirectory)/temp
       Contents: '*.json'
       RemoveSourceFolder: true
-      
+
   - task: CopyFiles@2
     displayName: 'Copy Database Creation Files to: Artifact Staging Directory'
     inputs:
