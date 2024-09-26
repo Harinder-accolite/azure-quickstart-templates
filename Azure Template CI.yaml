@@ -84,13 +84,6 @@ jobs:
       pwsh: true
 
   - task: AzureResourceManagerTemplateDeployment@3
-    inputs:
-      deploymentScope: 'Resource Group'
-      ConnectedServiceName: $(ConnectedServiceName)
-      action: 'DeleteRG'
-      resourceGroupName: BakingDP-TemplateTest-*
-
-  - task: AzureResourceManagerTemplateDeployment@3
     displayName: 'Deploy ARM Template : BakingDP-TemplateTest'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
     inputs:
@@ -359,4 +352,11 @@ jobs:
     inputs:
       ArtifactName: Solution Template
       FileCopyOptions: ''
+
+  - task: AzureResourceManagerTemplateDeployment@3
+    inputs:
+      deploymentScope: 'Resource Group'
+      ConnectedServiceName: $(ConnectedServiceName)
+      action: 'DeleteRG'
+      resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
 ...
