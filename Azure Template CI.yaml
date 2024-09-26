@@ -20,12 +20,6 @@ trigger: none
 
 pr: none
 
-resources:
-  repositories:
-  - repository: self
-    type: git
-    ref: feature/harinder-classic2yaml
-    
 jobs:
 - job: Job_1
   displayName: 'Agent job: Template Tests'
@@ -96,7 +90,7 @@ jobs:
       deploymentName: TestTemplate
       deploymentOutputs: deploymentOutput
       addSpnToEnvironment: true
-
+      
   - task: maikvandergaag.maikvandergaag-azurergtag.azurergtag.azurergtag@1
     displayName: Azure Resource Group Tagging
     condition: always()
@@ -106,7 +100,6 @@ jobs:
       ResourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
       Key: Usage
       Value: test-temp
-
   - task: PowerShell@2
     displayName: Print Deployment Output
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
@@ -116,7 +109,6 @@ jobs:
         # Print the Deployment Output
 
         Write-Host "$(deploymentOutput)" | out-default | Write-Verbose
-
   - task: PowerShell@2
     displayName: 'Test ARM Deployment : URL Tests'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
@@ -179,7 +171,6 @@ jobs:
         } else {
             Write-Host "Successfully tested all URL(s)"
         }
-
   - task: AzurePowerShell@5
     displayName: 'Azure PowerShell : Test Image Version w12r2d-14-2 Prod'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
@@ -219,7 +210,6 @@ jobs:
             throw $result.Value[1].message
         }
       TargetAzurePs: LatestVersion
-
   - task: CopyFiles@2
     displayName: 'Copy Files to: Artifact Staging Directory'
     inputs:
@@ -228,7 +218,6 @@ jobs:
       TargetFolder: $(build.artifactstagingdirectory)
       CleanTargetFolder: true
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template
     inputs:
@@ -237,7 +226,6 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplate.zip
       verbose: true
-
   - task: CopyFiles@2
     displayName: Copy mainTemplate.json File to temp directory
     inputs:
@@ -246,7 +234,6 @@ jobs:
       TargetFolder: $(build.artifactstagingdirectory)/temp
       CleanTargetFolder: true
       OverWrite: true
-
   - task: CopyFiles@2
     displayName: Copy createUiDefinition file for Dev shoe size in temp folder
     inputs:
@@ -254,7 +241,6 @@ jobs:
       Contents: '*.json'
       TargetFolder: $(build.artifactstagingdirectory)/temp
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template for Dev shoe size
     inputs:
@@ -263,7 +249,6 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplateDev.zip
       verbose: true
-
   - task: CopyFiles@2
     displayName: Replace createUiDefinition file for Test shoe size in temp folder
     inputs:
@@ -271,7 +256,6 @@ jobs:
       Contents: '*.json'
       TargetFolder: $(build.artifactstagingdirectory)/temp
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template for Test shoe size
     inputs:
@@ -280,7 +264,6 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplateTest.zip
       verbose: true
-
   - task: CopyFiles@2
     displayName: Replace createUiDefinition file for Small shoe size in temp folder
     inputs:
@@ -288,7 +271,6 @@ jobs:
       Contents: '*.json'
       TargetFolder: $(build.artifactstagingdirectory)/temp
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template for Small shoe size
     inputs:
@@ -297,7 +279,6 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplateSmall.zip
       verbose: true
-
   - task: CopyFiles@2
     displayName: Replace createUiDefinition file for Medium shoe size in temp folder
     inputs:
@@ -305,7 +286,6 @@ jobs:
       Contents: '*.json'
       TargetFolder: $(build.artifactstagingdirectory)/temp
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template for Medium shoe size
     inputs:
@@ -314,7 +294,6 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplateMedium.zip
       verbose: true
-
   - task: CopyFiles@2
     displayName: Replace createUiDefinition file for Large shoe size in temp folder
     inputs:
@@ -322,7 +301,6 @@ jobs:
       Contents: '*.json'
       TargetFolder: $(build.artifactstagingdirectory)/temp
       OverWrite: true
-
   - task: ArchiveFiles@2
     displayName: Archive Solution Template for Large shoe size
     inputs:
@@ -331,14 +309,12 @@ jobs:
       sevenZipCompression: 5
       archiveFile: $(build.artifactstagingdirectory)/SolutionTemplateLarge.zip
       verbose: true
-
   - task: DeleteFiles@1
     displayName: Delete temp folder
     inputs:
       SourceFolder: $(build.artifactstagingdirectory)/temp
       Contents: '*.json'
       RemoveSourceFolder: true
-
   - task: CopyFiles@2
     displayName: 'Copy Database Creation Files to: Artifact Staging Directory'
     inputs:
@@ -346,7 +322,6 @@ jobs:
       Contents: DatabaseDeploymentTemplates/*.json
       TargetFolder: $(build.artifactstagingdirectory)
       OverWrite: true
-
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: Solution Template'
     inputs:
@@ -359,4 +334,3 @@ jobs:
       ConnectedServiceName: $(ConnectedServiceName)
       action: 'DeleteRG'
       resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
-...
