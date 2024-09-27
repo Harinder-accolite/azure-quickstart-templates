@@ -329,6 +329,7 @@ jobs:
       FileCopyOptions: ''
 
   - task: AzureResourceManagerTemplateDeployment@3
+    condition: succeeded()
     inputs:
       deploymentScope: 'Resource Group'
       ConnectedServiceName: $(ConnectedServiceName)
