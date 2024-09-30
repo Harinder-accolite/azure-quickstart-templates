@@ -78,12 +78,22 @@ jobs:
       pwsh: true
 
   - task: AzureResourceManagerTemplateDeployment@3
+    displayName: Delete resource group BakingDP-Templates-CI-Test
+    condition: succeeded()
+    inputs:
+      deploymentScope: 'Resource Group'
+      ConnectedServiceName: $(ConnectedServiceName)
+      action: 'DeleteRG'
+      resourceGroupName: BakingDP-Templates-CI-Test
+    continueOnError: true
+
+  - task: AzureResourceManagerTemplateDeployment@3
     displayName: 'Deploy ARM Template : BakingDP-TemplateTest'
     condition: or(succeeded(), eq(variables['ForceDeploy'], 'True'))
     inputs:
       ConnectedServiceName: $(ConnectedServiceName)
       subscriptionName: 739c4e86-bd75-4910-8d6e-d7eb23ab94f3
-      resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
+      resourceGroupName: BakingDP-Templates-CI-Test
       location: Australia East
       csmFile: lansa-vmss-windows-autoscale-sql-database/mainTemplate.json
       overrideParameters: -osName "Windows Server 2012" -lansaVersion "V14 SP2" -msiURL $(msiURLv142) -stackName "build-$(Build.BuildNumber)" -certificateBase64Encoded "$(certificateBase64Encoded)" -certificatePassword "$(certificatePassword)" -databaseLogin "$(databaseLogin)" -databaseLoginPassword "$(databaseLoginPassword)" -adminUsername "$(adminUsername)" -adminPassword "$(adminPassword)" -webUsername "$(webUsername)" -webPassword "$(webPassword)" -gitBranch "debug/paas" -agpublicIpSku Standard -agpublicIpAllocationMethod Static
@@ -328,10 +338,3 @@ jobs:
       ArtifactName: Solution Template
       FileCopyOptions: ''
 
-  - task: AzureResourceManagerTemplateDeployment@3
-    condition: succeeded()
-    inputs:
-      deploymentScope: 'Resource Group'
-      ConnectedServiceName: $(ConnectedServiceName)
-      action: 'DeleteRG'
-      resourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
