@@ -107,7 +107,7 @@ jobs:
     continueOnError: True
     inputs:
       ConnectedServiceName: $(ConnectedServiceName)
-      ResourceGroupName: BakingDP-TemplateTest-$(Build.BuildNumber)
+      ResourceGroupName: BakingDP-Templates-CI-Test
       Key: Usage
       Value: test-temp
   - task: PowerShell@2
@@ -210,7 +210,7 @@ jobs:
          # Execute the TestImageVersion PS Script
         Write-Host "Test the image version $SkuName by executing the script in the VMSS $vmssName" | Out-Default | Write-Verbose
 
-        $result = Invoke-AzVmssVMRunCommand -ResourceGroupName "BakingDP-TemplateTest-$(Build.BuildNumber)" -VMScaleSetName $vmssName -InstanceId '0' -CommandId 'RunPowerShellScript' -ScriptPath "$(Build.Repository.LocalPath)\cookbooks\Tests\TestImageVersion.ps1" -Parameter @{ImgName = $SkuName}
+        $result = Invoke-AzVmssVMRunCommand -ResourceGroupName "BakingDP-Templates-CI-Test" -VMScaleSetName $vmssName -InstanceId '0' -CommandId 'RunPowerShellScript' -ScriptPath "$(Build.Repository.LocalPath)\cookbooks\Tests\TestImageVersion.ps1" -Parameter @{ImgName = $SkuName}
 
         $result | Out-Default | Write-Host
 
