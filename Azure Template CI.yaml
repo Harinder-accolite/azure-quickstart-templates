@@ -15,6 +15,8 @@ variables:
   value: AzTemplateToolKit.zip
 - name: ttk.folder
   value: $(Agent.BuildDirectory)\test
+- name: resourcegroup
+  value: 'BakingDP-Templates-CI-Test'
 
 trigger: none
 
@@ -78,13 +80,13 @@ jobs:
       pwsh: true
 
   - task: AzureResourceManagerTemplateDeployment@3
-    displayName: Delete resource group BakingDP-Templates-CI-Test
+    displayName: Delete resource group $(resourcegroup)
     condition: succeeded()
     inputs:
       deploymentScope: 'Resource Group'
       ConnectedServiceName: $(ConnectedServiceName)
       action: 'DeleteRG'
-      resourceGroupName: BakingDP-Templates-CI-Test
+      resourceGroupName: $(resourcegroup)
     continueOnError: true
 
   - task: AzureResourceManagerTemplateDeployment@3
@@ -93,7 +95,7 @@ jobs:
     inputs:
       ConnectedServiceName: $(ConnectedServiceName)
       subscriptionName: 739c4e86-bd75-4910-8d6e-d7eb23ab94f3
-      resourceGroupName: BakingDP-Templates-CI-Test
+      resourceGroupName: $(resourcegroup)
       location: Australia East
       csmFile: lansa-vmss-windows-autoscale-sql-database/mainTemplate.json
       overrideParameters: -osName "Windows Server 2012" -lansaVersion "V14 SP2" -msiURL $(msiURLv142) -stackName "build-$(Build.BuildNumber)" -certificateBase64Encoded "$(certificateBase64Encoded)" -certificatePassword "$(certificatePassword)" -databaseLogin "$(databaseLogin)" -databaseLoginPassword "$(databaseLoginPassword)" -adminUsername "$(adminUsername)" -adminPassword "$(adminPassword)" -webUsername "$(webUsername)" -webPassword "$(webPassword)" -gitBranch "debug/paas" -agpublicIpSku Standard -agpublicIpAllocationMethod Static
@@ -107,7 +109,7 @@ jobs:
     continueOnError: True
     inputs:
       ConnectedServiceName: $(ConnectedServiceName)
-      ResourceGroupName: BakingDP-Templates-CI-Test
+      ResourceGroupName: $(resourcegroup)
       Key: Usage
       Value: test-temp
   - task: PowerShell@2
