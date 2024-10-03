@@ -339,4 +339,12 @@ jobs:
     inputs:
       ArtifactName: Solution Template
       FileCopyOptions: ''
-
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: Delete resource group $(resourcegroup)
+    condition: succeeded()
+    inputs:
+      deploymentScope: 'Resource Group'
+      ConnectedServiceName: $(ConnectedServiceName)
+      action: 'DeleteRG'
+      resourceGroupName: $(resourcegroup)
+    continueOnError: true
